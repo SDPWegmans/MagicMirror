@@ -4,19 +4,19 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{39D6D310-D9FC-4DF1-AFCE-15BD08193F89}</ProjectGuid>
+    <ProjectGuid>{2C717375-8532-4C36-B33C-E748BCA23566}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MagicMirror</RootNamespace>
-    <AssemblyName>MagicMirror</AssemblyName>
+    <RootNamespace>MirrorCompanion</RootNamespace>
+    <AssemblyName>MirrorCompanion</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>MagicMirror_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>MirrorCompanion_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -92,7 +92,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="client_secret.json" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -102,53 +101,15 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OS\Monitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\DTO\Note\Note.cs" />
-    <Compile Include="Services\DTO\QOTD\Contents.cs" />
-    <Compile Include="Services\DTO\QOTD\Quote.cs" />
-    <Compile Include="Services\DTO\Weather\Currently.cs" />
-    <Compile Include="Services\DTO\Weather\Daily.cs" />
-    <Compile Include="Services\DTO\Weather\DailyData.cs" />
-    <Compile Include="Services\DTO\Weather\Flags.cs" />
-    <Compile Include="Services\DTO\Weather\Hourly.cs" />
-    <Compile Include="Services\DTO\Weather\HourlyData.cs" />
-    <Compile Include="Services\DTO\Weather\WeatherDataBase.cs" />
-    <Compile Include="Services\Responses\CalendarResponse.cs" />
-    <Compile Include="Services\Responses\NoteResponse.cs" />
-    <Compile Include="Services\Responses\QOTDResponse.cs" />
-    <Compile Include="Services\Responses\ServiceResponseBase.cs" />
-    <Compile Include="Services\Responses\WeatherServiceResponse.cs" />
-    <Compile Include="Services\ServiceManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="MagicMirror_TemporaryKey.pfx" />
+    <None Include="MirrorCompanion_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\StickyNote.png" />
-    <Content Include="Assets\WeatherImages\clear-day.png" />
-    <Content Include="Assets\WeatherImages\clear-night.png" />
-    <Content Include="Assets\WeatherImages\cloudy.png" />
-    <Content Include="Assets\WeatherImages\fog.png" />
-    <Content Include="Assets\WeatherImages\lobster.png" />
-    <Content Include="Assets\WeatherImages\partly-cloudy-day.png" />
-    <Content Include="Assets\WeatherImages\partly-cloudy-night.png" />
-    <Content Include="Assets\WeatherImages\rain.png" />
-    <Content Include="Assets\WeatherImages\sleet.png" />
-    <Content Include="Assets\WeatherImages\Small\clear-day-small.png" />
-    <Content Include="Assets\WeatherImages\Small\clear-night-small.png" />
-    <Content Include="Assets\WeatherImages\Small\cloudy-small.png" />
-    <Content Include="Assets\WeatherImages\Small\fog-small.png" />
-    <Content Include="Assets\WeatherImages\Small\lobster-small.png" />
-    <Content Include="Assets\WeatherImages\Small\partly-cloudy-day-small.png" />
-    <Content Include="Assets\WeatherImages\Small\partly-cloudy-night-small.png" />
-    <Content Include="Assets\WeatherImages\Small\rain-small.png" />
-    <Content Include="Assets\WeatherImages\Small\sleet-small.png" />
-    <Content Include="Assets\WeatherImages\Small\snow-small.png" />
-    <Content Include="Assets\WeatherImages\snow.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

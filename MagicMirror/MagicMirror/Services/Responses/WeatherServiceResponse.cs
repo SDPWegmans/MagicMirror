@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace MagicMirror.Services.Responses
 {
     [DataContract]    
-    public class WeatherServiceResponse //: ServiceResponseBase
+    public class WeatherServiceResponse 
     {
         [DataMember]
         public double latitude { get; set; }

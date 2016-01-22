@@ -1,0 +1,32 @@
+{
+  "siteName": {
+    "value": "MirrorService"
+  },
+  "hostingPlanName": {
+    "value": "MirrorAppServicePlan"
+  },
+  "siteLocation": {
+    "value": "East US"
+  },
+  "sku": {
+    "value": "Free"
+  },
+  "workerSize": {
+    "value": "0"
+  },
+  "serverName": {
+    "value": "magicmirror"
+  },
+  "serverLocation": {
+    "value": "East US"
+  },
+  "administratorLogin": {
+    "value": "saroot"
+  },
+  "administratorLoginPassword": {
+    "value": "12qw!@QW"
+  },
+  "databaseName": {
+    "value": "MirrorService_db"
+  }
+}

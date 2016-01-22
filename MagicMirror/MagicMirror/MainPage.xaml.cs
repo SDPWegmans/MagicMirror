@@ -7,7 +7,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using MagicMirror.OS;
+using System.Linq;
 using Windows.Storage;
+using MagicMirror.Services.DTO.Note;
 
 namespace MagicMirror
 {
@@ -16,8 +18,10 @@ namespace MagicMirror
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        #region Properties
         public ServiceManager weatherServiceManager { get; set; }
-        const int NUMBER_OF_FORECASTS = 3;
+        const int NUMBER_OF_FORECASTS = 3; 
+        #endregion
 
         /// <summary>
         /// 
@@ -34,7 +38,11 @@ namespace MagicMirror
             DisplayGreeting();
             //TurnMonitor();
         }
-
+        
+        #region Display Setup
+        /// <summary>
+        /// 
+        /// </summary>
         private void DisplayGreeting()
         {
             var currentHour = DateTime.Now.Hour;
@@ -59,31 +67,18 @@ namespace MagicMirror
         /// <summary>
         /// Sticky notes when they exist!
         /// </summary>
-        private void DisplayStickyNote()
+        private async void DisplayStickyNote()
         {
             //TODO:REsources file.  Put images and other config items somewhere global
             string stickyImgName = "StickyNote.png";
             StickyNoteImage.Source =  new BitmapImage(new Uri(WeatherImage.BaseUri, string.Format("Assets/{0}", stickyImgName)));
             StickyNoteImage.Visibility = Visibility.Visible;
+            ServiceManager noteServiceManager = 
+                new ServiceManager(new Uri("http://mirrorservice.azurewebsites.net/api/notes"));
+            var notes = await noteServiceManager.CallService<Note[]>();
+            //TODO: Make this more generic/better.
+            StickyNoteTextBlock.Text = notes[notes.Length-1].NoteText;
         }
-
-        #region Monitor 
-        private void TurnMonitor()
-        {
-            MagicMirror.OS.Monitor.IssueCommand(MONITOR_STATE.LowPower);
-
-            DispatcherTimer dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Tick += DispatcherTimer_Tick_Monitor; ;
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 5);
-            dispatcherTimer.Start();
-
-        }
-
-        private void DispatcherTimer_Tick_Monitor(object sender, object e)
-        {
-            MagicMirror.OS.Monitor.IssueCommand(MONITOR_STATE.On);
-        }
-        #endregion
 
         #region Time Display
         /// <summary>
@@ -148,7 +143,7 @@ namespace MagicMirror
         /// </summary>
         private async void DisplayWeatherContent()
         {
-            //TODO: Display next 3 days of weather with smaller icons
+            //TODO: Store coordinates in config or "get them live" prob not needed
             weatherServiceManager =
                 new ServiceManager(new Uri("https://api.forecast.io/forecast/bfca1ae07ffdf0931899e6d17c7b2875/43.1117230,-77.4087580"));
 
@@ -189,8 +184,18 @@ namespace MagicMirror
             #endregion
         }
 
+        #endregion
+
+        #region Utilities
+        /// <summary>
+        /// Formats the forecast presentation
+        /// </summary>
+        /// <param name="forecastDate"></param>
+        /// <param name="lowTemp"></param>
+        /// <param name="highTemp"></param>
+        /// <returns></returns>
         private string FormatForecast(string forecastDate, double lowTemp, double highTemp)
-        {
+        { //TODO: Move somewhere else out of this class?
             return
                 string.Format("{0}: L:{1}ºF H:{2}ºF ", forecastDate, Convert.ToInt16(lowTemp), Convert.ToInt16(highTemp));
         }
@@ -207,5 +212,24 @@ namespace MagicMirror
                 await dialog.ShowAsync();
             }
         }
+
+        #region Monitor 
+        private void TurnMonitor()
+        {
+            MagicMirror.OS.Monitor.IssueCommand(MONITOR_STATE.LowPower);
+
+            DispatcherTimer dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += DispatcherTimer_Tick_Monitor; ;
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 5);
+            dispatcherTimer.Start();
+
+        }
+
+        private void DispatcherTimer_Tick_Monitor(object sender, object e)
+        {
+            MagicMirror.OS.Monitor.IssueCommand(MONITOR_STATE.On);
+        }
+        #endregion 
+        #endregion
     }
 }
