@@ -119,7 +119,6 @@
     <Compile Include="Services\Responses\QOTDResponse.cs" />
     <Compile Include="Services\Responses\ServiceResponseBase.cs" />
     <Compile Include="Services\Responses\WeatherServiceResponse.cs" />
-    <Compile Include="Services\ServiceManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -167,6 +166,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsIoT, Version=10.0.10586.0">
+      <Name>Windows IoT Extensions for the UWP</Name>
+    </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MagicMirror.Web\MagicMirror.Web.csproj">
+      <Project>{a05be6a8-e322-4b9c-9bdb-9f9d022e60c7}</Project>
+      <Name>MagicMirror.Web</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

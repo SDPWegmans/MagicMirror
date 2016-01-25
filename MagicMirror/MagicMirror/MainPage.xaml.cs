@@ -1,15 +1,13 @@
-﻿using MagicMirror.Services;
+﻿using MagicMirror.OS;
+using MagicMirror.Services.DTO.Note;
 using MagicMirror.Services.Responses;
+using MagicMirror.Web;
 using System;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
-using MagicMirror.OS;
-using System.Linq;
-using Windows.Storage;
-using MagicMirror.Services.DTO.Note;
 
 namespace MagicMirror
 {
