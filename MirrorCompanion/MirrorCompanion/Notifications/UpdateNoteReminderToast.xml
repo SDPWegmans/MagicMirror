@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<toast>
+  <visual>
+    <binding template="ToastGeneric" >
+      <image placement="appLogoOverride" src="Assets\\CompanionAppIcon44x44.png" />
+      <text>placeholder text</text>
+    </binding>
+  </visual>
+</toast>
