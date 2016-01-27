@@ -16,9 +16,10 @@ namespace MagicMirror
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        #region Page Setup
         #region Properties
         public ServiceManager weatherServiceManager { get; set; }
-        const int NUMBER_OF_FORECASTS = 3; 
+        const int NUMBER_OF_FORECASTS = 3;
         #endregion
 
         /// <summary>
@@ -36,8 +37,10 @@ namespace MagicMirror
             DisplayGreeting();
             //TurnMonitor();
         }
-        
+        #endregion
+
         #region Display Setup
+        #region Greeting
         /// <summary>
         /// 
         /// </summary>
@@ -59,24 +62,48 @@ namespace MagicMirror
                 greeting = "Good evening";
             }
             //TODO: Profile switching variable for lobberella
-            GreetingTextBlock.Text = string.Format("{0} Lobberella!",greeting);
-        }
+            GreetingTextBlock.Text = string.Format("{0} Lobberella!", greeting);
+        } 
+        #endregion
 
+        #region Sticky Note
         /// <summary>
         /// Sticky notes when they exist!
         /// </summary>
-        private async void DisplayStickyNote()
+        private void DisplayStickyNote()
         {
-            //TODO:REsources file.  Put images and other config items somewhere global
             string stickyImgName = "StickyNote.png";
-            StickyNoteImage.Source =  new BitmapImage(new Uri(WeatherImage.BaseUri, string.Format("Assets/{0}", stickyImgName)));
+            StickyNoteImage.Source = new BitmapImage(new Uri(WeatherImage.BaseUri, string.Format("Assets/{0}", stickyImgName)));
             StickyNoteImage.Visibility = Visibility.Visible;
-            ServiceManager noteServiceManager = 
+            UpdateStickyNote();
+
+            //Update the note regularly
+            DispatcherTimer stickyNoteTimer = new DispatcherTimer();
+            stickyNoteTimer.Tick += StickyNoteTimer_Tick;
+            stickyNoteTimer.Interval = new TimeSpan(1, 0, 0);
+            stickyNoteTimer.Start();
+        }
+
+        /// <summary>
+        /// Updates on tick
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StickyNoteTimer_Tick(object sender, object e)
+        {
+            UpdateStickyNote();
+        } 
+
+        private async void UpdateStickyNote()
+        {
+            //TODO:Resources file.  Put images and other config items somewhere global
+            ServiceManager noteServiceManager =
                 new ServiceManager(new Uri("http://mirrorservice.azurewebsites.net/api/notes"));
             var notes = await noteServiceManager.CallService<Note[]>();
             //TODO: Make this more generic/better.
-            StickyNoteTextBlock.Text = notes[notes.Length-1].NoteText;
+            StickyNoteTextBlock.Text = notes[notes.Length - 1].NoteText;
         }
+        #endregion
 
         #region Time Display
         /// <summary>
@@ -110,6 +137,8 @@ namespace MagicMirror
         }
         #endregion
 
+        #region Quote of the Day
+
         /// <summary>
         /// Displays Quote of the Day content on the screen
         /// </summary>
@@ -135,11 +164,23 @@ namespace MagicMirror
 
             QOTDtextBlock.Text = string.Format(" \"{0}\" - {1}", quote, author);
         }
+        #endregion
+
+        #region Weather
 
         /// <summary>
         /// Displays weather content on the screen
         /// </summary>
-        private async void DisplayWeatherContent()
+        private void DisplayWeatherContent()
+        {
+            DispatcherTimer weatherTimer = new DispatcherTimer();
+            weatherTimer.Tick += WeatherTimer_Tick;
+            weatherTimer.Interval = new TimeSpan(1, 0, 0);
+            weatherTimer.Start();
+            UpdateWeather();
+        }
+
+        private async void UpdateWeather()
         {
             //TODO: Store coordinates in config or "get them live" prob not needed
             weatherServiceManager =
@@ -178,10 +219,17 @@ namespace MagicMirror
                 future3TextBlock.Text = forecasts[2];
                 future3Image.Source = new BitmapImage(new Uri(WeatherImage.BaseUri, string.Format("Assets/WeatherImages/Small/{0}-small.png", dailyIcon[2])));
             }
-
             #endregion
         }
 
+        private void WeatherTimer_Tick(object sender, object e)
+        {
+            UpdateWeather();
+        }
+
+
+
+        #endregion
         #endregion
 
         #region Utilities

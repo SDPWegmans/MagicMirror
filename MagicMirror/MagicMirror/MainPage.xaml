@@ -5,37 +5,48 @@
     xmlns:local="using:MagicMirror"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" RequestedTheme="Dark"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Name="MainGrid">
 
-    <Grid x:Name="MainGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RequestedTheme="Dark" Margin="0,0,0,0" HorizontalAlignment="Right" Width="1430">
-        <StackPanel Margin="0,0,0,351">
-            <Image x:Name="WeatherImage" HorizontalAlignment="Left" Height="134" Margin="1194,80,0,0" VerticalAlignment="Top" Width="120"/>
-            <Image x:Name="StickyNoteImage" Margin="89,0,1213,0" Height="128" Width="128"/>
-            <TextBlock x:Name="StickyNoteTextBlock" TextWrapping="Wrap" Text="Your husband loves you. Have a great day!" Width="90" Height="90" Margin="89,-90,1213,0" Foreground="#FF3E3E40" FontSize="10.667"/>
-            <TextBlock x:Name="CurrentWeatherTextBlock" HorizontalAlignment="Left" Margin="1194,-335,0,0" TextWrapping="Wrap" Text="Fetching Weather..." VerticalAlignment="Top" Height="103" Width="176" FontSize="21.333" />
-            <StackPanel Height="275" Margin="1194,-100,0,0">
-                <TextBlock Text="Future Lobber Weather"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Name="LeftPanel" Grid.Column="0" Grid.Row="0" Margin="10,0,0,0">
+            <TextBlock x:Name="GreetingTextBlock" TextWrapping="Wrap" Text="Hello Greeting" FontSize="24" Margin="0,0,0,20"/>
+            <Image x:Name="StickyNoteImage" Height="192" Width="192" HorizontalAlignment="Left"/>
+            <TextBlock x:Name="StickyNoteTextBlock" TextWrapping="Wrap" Text="Fetching Note..."  Foreground="#FF3E3E40" Margin="15,-150,0,0" Width="130" HorizontalAlignment="Left"/>
+        </StackPanel>
+        <StackPanel Name="CenterPanel" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
+            <TextBlock x:Name="TimeTextBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Fetching Time..." VerticalAlignment="Top" FontSize="46" />
+            <TextBlock x:Name="QOTDtextBlock" TextWrapping="Wrap" Text="Fetching Quote..." FontStyle="Italic" HorizontalAlignment="Center" FontSize="24" />
+        </StackPanel>
+        <StackPanel Name="RightPanel" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="0" Margin="0,0,10,0">
+            <StackPanel Name="CurrentWeatherPanel">
+                <TextBlock x:Name="CurrentWeatherTextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Fetching Weather..." VerticalAlignment="Top" FontSize="24"  />
+                <Image x:Name="WeatherImage" HorizontalAlignment="Left" Height="134" VerticalAlignment="Top" Width="120"/>
+            </StackPanel>
+            <StackPanel  Name="FutureWeatherPanel">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock x:Name="future1TextBlock" FontFamily="Courier New"/>
-                    <Image x:Name="future1Image" Width="32" Height="32"/>
+                    <TextBlock x:Name="future1TextBlock" FontFamily="Courier New" VerticalAlignment="Center"/>
+                    <Image x:Name="future1Image" Width="32" Height="32" VerticalAlignment="Top" Margin="5,0,0,0"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock x:Name="future2TextBlock" FontFamily="Courier New"/>
-                    <Image x:Name="future2Image" Width="32" Height="32"/>
+                    <TextBlock x:Name="future2TextBlock" FontFamily="Courier New" VerticalAlignment="Center"/>
+                    <Image x:Name="future2Image" Width="32" Height="32" VerticalAlignment="Top" Margin="5,0,0,0"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock x:Name="future3TextBlock" FontFamily="Courier New"/>
-                    <Image x:Name="future3Image" Width="32" Height="32"/>
+                    <TextBlock x:Name="future3TextBlock" FontFamily="Courier New" VerticalAlignment="Center"/>
+                    <Image x:Name="future3Image" Width="32" Height="32" VerticalAlignment="Top" Margin="5,0,0,0"/>
                 </StackPanel>
             </StackPanel>
-            <TextBlock x:Name="GreetingTextBlock" TextWrapping="Wrap" Text="Hello Greeting" Margin="87,-830,945,0" Width="400" Height="40"/>
         </StackPanel>
-
-        <StackPanel HorizontalAlignment="Left" Height="150" Margin="450,20,0,0" VerticalAlignment="Top" Width="600">
-            <Border BorderBrush="White" BorderThickness="0" Grid.Row="0">
-                <TextBlock x:Name="QOTDtextBlock" TextWrapping="Wrap" Text="Fetching Quote..." VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="132" Margin="0,0,0,0" FontStyle="Italic" Width="500"/>
-            </Border>
-        </StackPanel>
-        <TextBlock x:Name="TimeTextBlock" HorizontalAlignment="Left" Margin="87,10,0,0" TextWrapping="Wrap" Text="Fetching Time..." VerticalAlignment="Top" Height="60" Width="307" FontSize="48"/>
     </Grid>
 </Page>

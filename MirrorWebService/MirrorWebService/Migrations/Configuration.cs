@@ -28,9 +28,10 @@ namespace MirrorWebService.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            context.Notes.AddOrUpdate(x => x.Id,
-                new Note() { Id = 1, NoteText = "Love is to you!" },
-                new Note() { Id = 2, NoteText = "Bro Fist~" });
+            //TODO: I removed seed data bc it was annoying
+            //context.Notes.AddOrUpdate(x => x.Id,
+            //    new Note() { Id = 1, NoteText = "Love is to you!" },
+            //    new Note() { Id = 2, NoteText = "Bro Fist~" });
         }
     }
 }

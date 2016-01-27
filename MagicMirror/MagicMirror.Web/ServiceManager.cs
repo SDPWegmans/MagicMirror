@@ -13,6 +13,7 @@ namespace MagicMirror.Web
     /// </summary>
     public class ServiceManager
     {
+        #region Setup
         public Uri RestURI { get; set; }
 
         /// <summary>
@@ -23,7 +24,9 @@ namespace MagicMirror.Web
         {
             RestURI = serviceURI;
         }
+        #endregion
 
+        #region Service CRUD Calls
         /// <summary>
         /// Invoke an async call to the configured service.
         /// </summary>
@@ -117,6 +120,7 @@ namespace MagicMirror.Web
 
             var resp = (HttpWebResponse)await request.GetResponseAsync();
             return (resp.StatusCode == HttpStatusCode.OK) ? true : false;
-        }
+        } 
+        #endregion
     }
 }
