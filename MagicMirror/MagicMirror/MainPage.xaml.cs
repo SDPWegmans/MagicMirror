@@ -36,6 +36,11 @@ namespace MagicMirror
             DisplayStickyNote();
             DisplayGreeting();
             //TurnMonitor();
+
+            CalendarResponse cr = new CalendarResponse();
+            //cr.LoadSecrets();
+            //cr.GetCalendarResponse();
+            cr.GetResponse();
         }
         #endregion
 
