@@ -37,6 +37,7 @@ namespace MagicMirror
             DisplayGreeting();
             //TurnMonitor();
 
+            //TODO: Wrap in dispatch timer for calls
             CalendarResponse cr = new CalendarResponse();
             //cr.LoadSecrets();
             //cr.GetCalendarResponse();
@@ -149,7 +150,7 @@ namespace MagicMirror
         /// </summary>
         private async void DisplayQOTDContent()
         {
-            //TODO: Caching the call for a day because we are limited to how often we can call the api.
+            //TODO:Put in dispatch timer to call once or twice a day
 
             ServiceManager QOTDServiceManager =
                 new ServiceManager(new Uri("http://quotes.rest/qod.json?category=inspire"));
