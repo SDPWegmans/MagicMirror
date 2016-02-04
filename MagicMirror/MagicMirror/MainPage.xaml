@@ -15,8 +15,8 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <!--<RowDefinition Height="*" />
+            <RowDefinition Height="*" />-->
         </Grid.RowDefinitions>
 
         <StackPanel Name="LeftPanel" Grid.Column="0" Grid.Row="0" Margin="10,0,0,0">
@@ -46,6 +46,12 @@
                     <TextBlock x:Name="future3TextBlock" FontFamily="Courier New" VerticalAlignment="Center"/>
                     <Image x:Name="future3Image" Width="32" Height="32" VerticalAlignment="Top" Margin="5,0,0,0"/>
                 </StackPanel>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock>Today is</TextBlock>
+            </StackPanel>
+            <StackPanel Name="EventsStackPanel">
+                <ListView Name="EventsListView" FontFamily="Courier New" />
             </StackPanel>
         </StackPanel>
     </Grid>

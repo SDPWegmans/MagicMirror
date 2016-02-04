@@ -6,15 +6,14 @@ namespace MirrorWebService.Migrations
     using System.Linq;
     using MirrorWebService.Models;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<MirrorWebService.Models.NoteContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<MirrorWebService.Models.CalendarSettingContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "MirrorWebService.Models.NoteContext";
         }
 
-        protected override void Seed(MirrorWebService.Models.NoteContext context)
+        protected override void Seed(MirrorWebService.Models.CalendarSettingContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -28,10 +27,9 @@ namespace MirrorWebService.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            //TODO: I removed seed data bc it was annoying
-            //context.Notes.AddOrUpdate(x => x.Id,
-            //    new Note() { Id = 1, NoteText = "Love is to you!" },
-            //    new Note() { Id = 2, NoteText = "Bro Fist~" });
+
+            context.CalendarSettings.AddOrUpdate(x => x.Id,
+                new CalendarSetting() { Id = 1, ActiveCalendarAccount = "primary", CalendarOwnerAccount = "scottroot2@gmail.com", RefreshInterval = new TimeSpan(0, 0, 30) });
         }
     }
 }

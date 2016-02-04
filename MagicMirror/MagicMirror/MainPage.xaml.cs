@@ -1,5 +1,6 @@
 ﻿using MagicMirror.OS;
 using MagicMirror.Services.DTO.Note;
+using MagicMirror.Services.DTO.Settings;
 using MagicMirror.Services.Responses;
 using MagicMirror.Web;
 using System;
@@ -8,6 +9,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+
 
 namespace MagicMirror
 {
@@ -19,6 +21,7 @@ namespace MagicMirror
         #region Page Setup
         #region Properties
         public ServiceManager weatherServiceManager { get; set; }
+        public CalendarSetting[] CalendarSettings { get; set; }
         const int NUMBER_OF_FORECASTS = 3;
         #endregion
 
@@ -28,20 +31,26 @@ namespace MagicMirror
         public MainPage()
         {
             this.InitializeComponent();
-            //EnterFullScreen();
-            //Load content on to the UI
+            //Rotates the screen orientation
+            //Windows.Graphics.Display.DisplayInformation.AutoRotationPreferences = 
+            //    Windows.Graphics.Display.DisplayOrientations.Portrait;
+            ConfigureApp();
+        }
+
+        private async void ConfigureApp()
+        {
+            //TODO: Will this bomb other code since it is async and things depend on it?
+            ServiceManager calConfigServiceManager = new 
+                ServiceManager(new Uri("http://mirrorservice.azurewebsites.net/api/CalendarSettings"));
+
+            CalendarSettings = await calConfigServiceManager.CallService<CalendarSetting[]>();
+            
             DisplayTime();
             DisplayWeatherContent();
             DisplayQOTDContent();
             DisplayStickyNote();
             DisplayGreeting();
-            //TurnMonitor();
-
-            //TODO: Wrap in dispatch timer for calls
-            CalendarResponse cr = new CalendarResponse();
-            //cr.LoadSecrets();
-            //cr.GetCalendarResponse();
-            cr.GetResponse();
+            DisplayCalendarContent();
         }
         #endregion
 
@@ -120,7 +129,7 @@ namespace MagicMirror
             UpdateTime();
             DispatcherTimer dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += DispatcherTimer_Tick;
-            dispatcherTimer.Interval = new TimeSpan(0, 1, 0);
+            dispatcherTimer.Interval = new TimeSpan(0, 1, 0); //TODO: put in config db for companion app
             dispatcherTimer.Start();
         }
 
@@ -232,9 +241,50 @@ namespace MagicMirror
         {
             UpdateWeather();
         }
+        #endregion
 
+        #region Calendar
+        private async void UpdateCalendar()
+        {
+            int maxNumChars = 40;
+            CalendarResponse cr = new CalendarResponse();
+            var calResp  = await cr.GetResponse();
+            if (calResp != null)
+            {
+                EventsListView.Items.Clear();
+                foreach (var evt in cr.Events)
+                {
+                    string txt = string.Format("{0}\r\n{1}\r\n",evt.StartTime.ToString("MM/dd hh:mm tt"),evt.Summary);
+                    if (txt.Length > maxNumChars)
+                    {
+                        txt = txt.Substring(0, maxNumChars);
+                    }
+                      
+                    TextBlock tb = new TextBlock();
+                    tb.Text = txt;
 
+                    ListViewItem lvi = new ListViewItem();
+                    lvi.BorderThickness = new Thickness(2, 0, 0, 0);
+                    lvi.FontFamily = new Windows.UI.Xaml.Media.FontFamily("Courier New");
+                    lvi.Content = txt;        
+                    EventsListView.Items.Add(lvi);
+                }
+            }
+        }
 
+        private void DisplayCalendarContent()
+        {
+            DispatcherTimer calendarTimer = new DispatcherTimer();
+            calendarTimer.Tick += CalendarTimer_Tick;
+            calendarTimer.Interval = CalendarSettings[0].RefreshInterval;
+            calendarTimer.Start();
+            UpdateCalendar();
+        }
+
+        private void CalendarTimer_Tick(object sender, object e)
+        {
+            //UpdateCalendar();
+        }
         #endregion
         #endregion
 

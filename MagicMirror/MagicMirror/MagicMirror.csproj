@@ -106,21 +106,11 @@
     </Compile>
     <Compile Include="OS\Monitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\DTO\Calendar\Event.cs" />
-    <Compile Include="Services\DTO\Note\Note.cs" />
-    <Compile Include="Services\DTO\QOTD\Contents.cs" />
-    <Compile Include="Services\DTO\QOTD\Quote.cs" />
-    <Compile Include="Services\DTO\Weather\Currently.cs" />
-    <Compile Include="Services\DTO\Weather\Daily.cs" />
-    <Compile Include="Services\DTO\Weather\DailyData.cs" />
-    <Compile Include="Services\DTO\Weather\Flags.cs" />
-    <Compile Include="Services\DTO\Weather\Hourly.cs" />
-    <Compile Include="Services\DTO\Weather\HourlyData.cs" />
-    <Compile Include="Services\DTO\Weather\WeatherDataBase.cs" />
     <Compile Include="Services\Responses\CalendarResponse.cs" />
     <Compile Include="Services\Responses\NoteResponse.cs" />
     <Compile Include="Services\Responses\QOTDResponse.cs" />
     <Compile Include="Services\Responses\ServiceResponseBase.cs" />
+    <Compile Include="Services\Responses\Settings\CalendarSettingResponse.cs" />
     <Compile Include="Services\Responses\WeatherServiceResponse.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +166,10 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MagicMirror.DTO\MagicMirror.DTO.csproj">
+      <Project>{139b5387-3d30-4d32-a1ca-20f2e8a10b10}</Project>
+      <Name>MagicMirror.DTO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MagicMirror.Web\MagicMirror.Web.csproj">
       <Project>{a05be6a8-e322-4b9c-9bdb-9f9d022e60c7}</Project>
       <Name>MagicMirror.Web</Name>

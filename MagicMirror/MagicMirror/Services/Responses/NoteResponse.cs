@@ -1,5 +1,4 @@
 ﻿using MagicMirror.Services.DTO.Note;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace MagicMirror.Services.Responses
