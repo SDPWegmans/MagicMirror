@@ -7,18 +7,18 @@ namespace MirrorWebService.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Initial : IMigrationMetadata
+    public sealed partial class NoteSettingsMig : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(NoteSettingsMig));
         
         string IMigrationMetadata.Id
         {
-            get { return "201601291547555_Initial"; }
+            get { return "201602070216176_NoteSettingsMig"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return Resources.GetString("Source"); }
+            get { return null; }
         }
         
         string IMigrationMetadata.Target

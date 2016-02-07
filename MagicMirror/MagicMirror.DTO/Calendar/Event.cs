@@ -1,19 +1,30 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace MagicMirror.DTO.Calendar
 {
+    [DataContract]
     public class Event
     {
+        [DataMember]
         public string Summary { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        public TimeSpan Duration
-        {
-            get
-            {
-                return new TimeSpan((EndTime - StartTime).Ticks);
-            }
-        }
+        //[DataMember]
+        //public DateTime StartTime { get; set; }
+        [DataMember]
+        public string StartTimeStr { get; set; }
+        //[DataMember]
+        //public DateTime EndTime { get; set; }
+        [DataMember]
+        public string EndTimeStr { get; set; }
+        //[DataMember]
+        //public TimeSpan Duration
+        //{
+        //    get
+        //    {
+        //        return new TimeSpan((EndTime - StartTime).Ticks);
+        //    }
+        //}
+        [DataMember]
         public bool IsAllDayEvent
         {
             get; set;

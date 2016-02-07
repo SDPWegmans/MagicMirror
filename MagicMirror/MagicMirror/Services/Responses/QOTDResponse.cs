@@ -1,4 +1,4 @@
-﻿using MagicMirror.Services.DTO.QOTD;
+﻿using MagicMirror.DTO.QOTD;
 using System.Runtime.Serialization;
 
 namespace MagicMirror.Services.Responses

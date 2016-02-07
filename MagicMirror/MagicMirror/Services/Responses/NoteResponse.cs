@@ -1,4 +1,4 @@
-﻿using MagicMirror.Services.DTO.Note;
+﻿using MagicMirror.DTO.Note;
 using System.Runtime.Serialization;
 
 namespace MagicMirror.Services.Responses

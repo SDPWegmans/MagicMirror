@@ -1,6 +1,6 @@
 ﻿using MagicMirror.OS;
-using MagicMirror.Services.DTO.Note;
-using MagicMirror.Services.DTO.Settings;
+using MagicMirror.DTO.Note;
+using MagicMirror.DTO.Settings;
 using MagicMirror.Services.Responses;
 using MagicMirror.Web;
 using System;
@@ -23,6 +23,7 @@ namespace MagicMirror
         public ServiceManager weatherServiceManager { get; set; }
         public CalendarSetting[] CalendarSettings { get; set; }
         const int NUMBER_OF_FORECASTS = 3;
+        public MirrorDataResponse MirrorData { get; set; }
         #endregion
 
         /// <summary>
@@ -31,21 +32,29 @@ namespace MagicMirror
         public MainPage()
         {
             this.InitializeComponent();
-            //Rotates the screen orientation
-            //Windows.Graphics.Display.DisplayInformation.AutoRotationPreferences = 
-            //    Windows.Graphics.Display.DisplayOrientations.Portrait;
+            //TODO: Rotate the screen orientation
+            DispatcherTimer mainTimer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 10) };
+            mainTimer.Tick += MainTimer_Tick;
+            mainTimer.Start();
+            DisplayTime();
+            ConfigureApp();
+        }
+
+        private void MainTimer_Tick(object sender, object e)
+        {
             ConfigureApp();
         }
 
         private async void ConfigureApp()
         {
             //TODO: Will this bomb other code since it is async and things depend on it?
-            ServiceManager calConfigServiceManager = new 
-                ServiceManager(new Uri("http://mirrorservice.azurewebsites.net/api/CalendarSettings"));
+            //ServiceManager calConfigServiceManager = new 
+            //    ServiceManager(new Uri("http://mirrorservice.azurewebsites.net/api/CalendarSettings"));
 
-            CalendarSettings = await calConfigServiceManager.CallService<CalendarSetting[]>();
-            
-            DisplayTime();
+            ServiceManager mirrorServiceManager = new
+                ServiceManager(new Uri("http://mirrorservice.azurewebsites.net/api/MirrorData"));
+
+            MirrorData = (await mirrorServiceManager.CallService<MirrorDataResponse[]>())[0];
             DisplayWeatherContent();
             DisplayQOTDContent();
             DisplayStickyNote();
@@ -78,7 +87,7 @@ namespace MagicMirror
             }
             //TODO: Profile switching variable for lobberella
             GreetingTextBlock.Text = string.Format("{0} Lobberella!", greeting);
-        } 
+        }
         #endregion
 
         #region Sticky Note
@@ -90,33 +99,7 @@ namespace MagicMirror
             string stickyImgName = "StickyNote.png";
             StickyNoteImage.Source = new BitmapImage(new Uri(WeatherImage.BaseUri, string.Format("Assets/{0}", stickyImgName)));
             StickyNoteImage.Visibility = Visibility.Visible;
-            UpdateStickyNote();
-
-            //Update the note regularly
-            DispatcherTimer stickyNoteTimer = new DispatcherTimer();
-            stickyNoteTimer.Tick += StickyNoteTimer_Tick;
-            stickyNoteTimer.Interval = new TimeSpan(1, 0, 0);
-            stickyNoteTimer.Start();
-        }
-
-        /// <summary>
-        /// Updates on tick
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void StickyNoteTimer_Tick(object sender, object e)
-        {
-            UpdateStickyNote();
-        } 
-
-        private async void UpdateStickyNote()
-        {
-            //TODO:Resources file.  Put images and other config items somewhere global
-            ServiceManager noteServiceManager =
-                new ServiceManager(new Uri("http://mirrorservice.azurewebsites.net/api/notes"));
-            var notes = await noteServiceManager.CallService<Note[]>();
-            //TODO: Make this more generic/better.
-            StickyNoteTextBlock.Text = notes[notes.Length - 1].NoteText;
+            StickyNoteTextBlock.Text = MirrorData.Note.NoteText;
         }
         #endregion
 
@@ -157,15 +140,10 @@ namespace MagicMirror
         /// <summary>
         /// Displays Quote of the Day content on the screen
         /// </summary>
-        private async void DisplayQOTDContent()
+        private void DisplayQOTDContent()
         {
-            //TODO:Put in dispatch timer to call once or twice a day
-
-            ServiceManager QOTDServiceManager =
-                new ServiceManager(new Uri("http://quotes.rest/qod.json?category=inspire"));
-
             string quote = string.Empty; string author = string.Empty;
-            var QOTDResponse = await QOTDServiceManager.CallService<QOTDResponse>();
+            var QOTDResponse = MirrorData.QuoteOfTheDay;
             if (QOTDResponse == null)
             {
                 quote = "Love your husband!";
@@ -173,8 +151,8 @@ namespace MagicMirror
             }
             else
             {
-                quote = QOTDResponse.contents.quotes[0].quote;
-                author = QOTDResponse.contents.quotes[0].author;
+                quote = QOTDResponse.quote;
+                author = QOTDResponse.author;
             }
 
             QOTDtextBlock.Text = string.Format(" \"{0}\" - {1}", quote, author);
@@ -195,13 +173,9 @@ namespace MagicMirror
             UpdateWeather();
         }
 
-        private async void UpdateWeather()
+        private void UpdateWeather()
         {
-            //TODO: Store coordinates in config or "get them live" prob not needed
-            weatherServiceManager =
-                new ServiceManager(new Uri("https://api.forecast.io/forecast/bfca1ae07ffdf0931899e6d17c7b2875/43.1117230,-77.4087580"));
-
-            var weatherResponse = await weatherServiceManager.CallService<WeatherServiceResponse>();
+            var weatherResponse = MirrorData.WeatherForecast;
             var currentWeather = weatherResponse.currently;
             if (weatherResponse == null)
             {
@@ -244,46 +218,28 @@ namespace MagicMirror
         #endregion
 
         #region Calendar
-        private async void UpdateCalendar()
-        {
-            int maxNumChars = 40;
-            CalendarResponse cr = new CalendarResponse();
-            var calResp  = await cr.GetResponse();
-            if (calResp != null)
-            {
-                EventsListView.Items.Clear();
-                foreach (var evt in cr.Events)
-                {
-                    string txt = string.Format("{0}\r\n{1}\r\n",evt.StartTime.ToString("MM/dd hh:mm tt"),evt.Summary);
-                    if (txt.Length > maxNumChars)
-                    {
-                        txt = txt.Substring(0, maxNumChars);
-                    }
-                      
-                    TextBlock tb = new TextBlock();
-                    tb.Text = txt;
-
-                    ListViewItem lvi = new ListViewItem();
-                    lvi.BorderThickness = new Thickness(2, 0, 0, 0);
-                    lvi.FontFamily = new Windows.UI.Xaml.Media.FontFamily("Courier New");
-                    lvi.Content = txt;        
-                    EventsListView.Items.Add(lvi);
-                }
-            }
-        }
-
         private void DisplayCalendarContent()
         {
-            DispatcherTimer calendarTimer = new DispatcherTimer();
-            calendarTimer.Tick += CalendarTimer_Tick;
-            calendarTimer.Interval = CalendarSettings[0].RefreshInterval;
-            calendarTimer.Start();
-            UpdateCalendar();
-        }
+            int maxNumChars = 40;
 
-        private void CalendarTimer_Tick(object sender, object e)
-        {
-            //UpdateCalendar();
+            EventsListView.Items.Clear();
+            foreach (var evt in MirrorData.CalendarEvents)
+            {
+                string txt = string.Format("{0}\r\n{1}\r\n", evt.StartTimeStr, evt.Summary);
+                if (txt.Length > maxNumChars)
+                {
+                    txt = txt.Substring(0, maxNumChars);
+                }
+
+                TextBlock tb = new TextBlock();
+                tb.Text = txt;
+
+                ListViewItem lvi = new ListViewItem();
+                lvi.BorderThickness = new Thickness(2, 0, 0, 0);
+                lvi.FontFamily = new Windows.UI.Xaml.Media.FontFamily("Courier New");
+                lvi.Content = txt;
+                EventsListView.Items.Add(lvi);
+            }
         }
         #endregion
         #endregion

@@ -1,4 +1,4 @@
-﻿using MagicMirror.Services.DTO.Settings;
+﻿using MagicMirror.DTO.Settings;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 

@@ -8,16 +8,28 @@
     mc:Ignorable="d" Loaded="Page_Loaded" RequestedTheme="Dark"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        
         <TextBlock FontSize="20" FontWeight="Bold" Foreground="Purple" Margin="0,0,0,10">Note of the day is currently:</TextBlock>
-        <!--<TextBlock FontWeight="Bold">Note of the day is currently:</TextBlock>-->
         <TextBlock Name="CurrentNoteTextBlock" TextWrapping="WrapWholeWords" Margin="0,0,0,10"></TextBlock>
+        <StackPanel Margin="0,10,0,0" BorderBrush="White" BorderThickness="1" >
+            
+            <TextBlock>Set new note text here:</TextBlock>
+            <TextBox Name="NewNoteTextBox" PlaceholderText="Note Text Here" ></TextBox>
+            <Button Name="NewNoteButton" Click="NewNoteButton_Click"  HorizontalAlignment="Stretch" VerticalContentAlignment="Bottom" BorderThickness="0,0,0,1" Margin="0,10,0,0" BorderBrush="Black" HorizontalContentAlignment="Left" Background="Purple" Height="75" Foreground="White">Add New Note</Button>
+        </StackPanel>
+        <StackPanel Margin="0,10,0,0" BorderBrush="White" BorderThickness="1" >
+            <TextBlock  Name="ActiveNotesTextBlock" >Number of Active Notes</TextBlock>
+            <TextBox Name="ActiveNotesTextBox" PlaceholderText="Number of Notes to Show on the Mirror"></TextBox>
+            <TextBlock  Name="RefreshNoteTextBlock" >Refresh Time</TextBlock>
+            <TextBox Name="RefreshActiveNotesTextBox" PlaceholderText="When to Refresh"></TextBox>
+            <ComboBox Name="TimeOptions">
+                <ComboBoxItem>Hours</ComboBoxItem>
+                <ComboBoxItem>Minutes</ComboBoxItem>
+                <ComboBoxItem>Seconds</ComboBoxItem>
+            </ComboBox>
+            <Button Name="SaveSettingsButton" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Purple" Height="75" Foreground="White" BorderThickness="0,0,0,1" BorderBrush="Black" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Left" Click="SaveSettingsButton_Click">Save Note Settings</Button>
+        </StackPanel>
 
-        <TextBlock>Set new note text here:</TextBlock>
-        <TextBox Name="NewNoteTextBox" ></TextBox>
-        <Button Name="NewNoteButton" Click="NewNoteButton_Click"  HorizontalAlignment="Stretch" VerticalContentAlignment="Bottom" BorderThickness="0,0,0,1" Margin="0,10,0,0" BorderBrush="Black" HorizontalContentAlignment="Left" Background="Purple" Height="75" Foreground="White">Add New Note</Button>
         <Button Name="ClearAllNotesButton" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Purple" Height="75" Foreground="White" BorderThickness="0,0,0,1" BorderBrush="Black" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Left" Click="ClearAllNotesButton_Click">Delete All Notes</Button>
-        <!--<Button Name="Future1Button" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Purple" Height="75" Foreground="White" BorderThickness="0,0,0,1" BorderBrush="Black" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Left" Click="ClearAllNotesButton_Click">Future Function</Button>
-        <Button Name="Future2Button" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Purple" Height="75" Foreground="White" BorderThickness="0,0,0,1" BorderBrush="Black" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Left" Click="ClearAllNotesButton_Click">Future Function</Button>
-        <Button Name="Future3Button" HorizontalAlignment="Stretch" Margin="0,0,0,0" Background="Purple" Height="75" Foreground="White" BorderThickness="0,0,0,1" BorderBrush="Black" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Left" Click="ClearAllNotesButton_Click">Future Function</Button> -->
     </StackPanel>
 </Page>

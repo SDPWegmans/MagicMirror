@@ -4,16 +4,16 @@ namespace MirrorWebService.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
-    using MirrorWebService.Models;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<MirrorWebService.Models.CalendarSettingContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<MirrorWebService.Models.Settings.NoteSettingsContext>
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
+            ContextKey = "MirrorWebService.Models.Settings.NoteSettingsContext";
         }
 
-        protected override void Seed(MirrorWebService.Models.CalendarSettingContext context)
+        protected override void Seed(MirrorWebService.Models.Settings.NoteSettingsContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -27,9 +27,6 @@ namespace MirrorWebService.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-
-            context.CalendarSettings.AddOrUpdate(x => x.Id,
-                new CalendarSetting() { Id = 1, ActiveCalendarAccount = "primary", CalendarOwnerAccount = "scottroot2@gmail.com", RefreshInterval = new TimeSpan(0, 0, 30) });
         }
     }
 }

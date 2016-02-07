@@ -69,7 +69,7 @@ namespace MirrorCompanion.Views
                 CurrentNoteTextBlock.Text = "There is no current note set. :(";
         }
 
-        
+
         #endregion
 
         #region Async Data Calls
@@ -150,5 +150,50 @@ namespace MirrorCompanion.Views
             //TODO: Pull schedule info from config
         }
         #endregion
+
+        /// <summary>
+        /// Updates note settings
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveSettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            int refreshValue = int.Parse(RefreshActiveNotesTextBox.Text);
+            string timeOptionsVal = ((ComboBoxItem)TimeOptions.SelectedItem).Content.ToString(); //TimeOptions.SelectedValue.ToString();
+            
+            NoteSettingsRequest noteSetReq = new NoteSettingsRequest()
+            {
+                Id = 1,
+                NoteRefreshInterval = ConstructTimeSpan(timeOptionsVal,refreshValue).ToString(),
+                NumberOfActiveNotes = int.Parse(ActiveNotesTextBox.Text)
+            };
+
+            ServiceManager noteSettingsMgr = new ServiceManager(AppConfiguration.NoteSettingsURI);
+            var x = noteSettingsMgr.CallPOSTService<NoteSettingsRequest>(noteSetReq);
+        }
+
+        /// <summary>
+        /// Helper to create a timespan when given a number and an option
+        /// </summary>
+        /// <param name="timeOptionsVal">Hours/Minutes/Seconds</param>
+        /// <param name="refreshValue">Valuye of the refresh</param>
+        /// <returns></returns>
+        private TimeSpan ConstructTimeSpan(string timeOptionsVal, int refreshValue)
+        {
+            TimeSpan interval;
+            if (timeOptionsVal.Equals("Hours"))
+            {
+                interval = new TimeSpan(refreshValue, 0, 0);
+            }
+            if (timeOptionsVal.Equals("Minutes"))
+            {
+                interval = new TimeSpan(0, refreshValue, 0);
+            }
+            if (timeOptionsVal.Equals("Seconds"))
+            {
+                interval = new TimeSpan(0, 0, refreshValue);
+            }
+            return interval;
+        }
     }
 }

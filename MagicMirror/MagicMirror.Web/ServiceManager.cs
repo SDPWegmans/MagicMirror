@@ -55,7 +55,7 @@ namespace MagicMirror.Web
 
                 return dataObject;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 //TODO: Handle these exceptions better.
                 return default(T);
@@ -70,26 +70,34 @@ namespace MagicMirror.Web
         /// <returns>Boolean successful = true</returns>
         public async Task<bool> CallPOSTService<T>(T serializableObj)
         {
-            WebRequest request = WebRequest.Create(RestURI);
-            request.ContentType = "application /json; charset=utf-8";
-            request.Method = "POST";
-
-            MemoryStream ms = new MemoryStream();
-            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(T));
-            serializer.WriteObject(ms, serializableObj);
-            ms.Position = 0;
-            StreamReader sr = new StreamReader(ms);
-            var data = sr.ReadToEnd();
-            byte[] byteData = System.Text.UTF8Encoding.UTF8.GetBytes(data);
-
-            using (var reqStream = await request.GetRequestStreamAsync())
+            try
             {
-                reqStream.Write(byteData, 0, byteData.Length);
-                await reqStream.FlushAsync();
-            }
+                WebRequest request = WebRequest.Create(RestURI);
+                request.ContentType = "application /json; charset=utf-8";
+                request.Method = "POST";
 
-            var resp = (HttpWebResponse)await request.GetResponseAsync();
-            return (resp.StatusCode == HttpStatusCode.Created) ? true : false;
+                MemoryStream ms = new MemoryStream();
+                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(T));
+                serializer.WriteObject(ms, serializableObj);
+                ms.Position = 0;
+                StreamReader sr = new StreamReader(ms);
+                var data = sr.ReadToEnd();
+                byte[] byteData = System.Text.UTF8Encoding.UTF8.GetBytes(data);
+
+                using (var reqStream = await request.GetRequestStreamAsync())
+                {
+                    reqStream.Write(byteData, 0, byteData.Length);
+                    await reqStream.FlushAsync();
+                }
+
+                var resp = (HttpWebResponse)await request.GetResponseAsync();
+                return (resp.StatusCode == HttpStatusCode.Created) ? true : false;
+            }
+            catch(Exception ex)
+            {
+                var foo = ex;
+                return false;
+            }
         }
 
         /// <summary>

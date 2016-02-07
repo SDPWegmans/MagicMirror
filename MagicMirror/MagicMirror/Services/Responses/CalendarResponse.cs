@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Cal = MagicMirror.Services.DTO.Calendar;
+using Cal = MagicMirror.DTO.Calendar;
 
 namespace MagicMirror.Services.Responses
 {
@@ -73,8 +73,8 @@ namespace MagicMirror.Services.Responses
                     Events.Add(new Cal.Event()
                     {
                         Summary = item.Summary,
-                        StartTime = item.Start.DateTime.HasValue ? item.Start.DateTime.Value : DateTime.Parse(item.Start.Date),
-                        EndTime = item.End.DateTime.HasValue ? item.End.DateTime.Value : DateTime.Parse(item.End.Date)
+                        StartTimeStr = (item.Start.DateTime.HasValue ? item.Start.DateTime.Value : DateTime.Parse(item.Start.Date)).ToString(),
+                        EndTimeStr = (item.End.DateTime.HasValue ? item.End.DateTime.Value : DateTime.Parse(item.End.Date)).ToString()
                     });
                 }
                 //    pageToken = calEvents.NextPageToken;

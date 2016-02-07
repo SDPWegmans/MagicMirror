@@ -255,12 +255,17 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MirrorDataController.cs" />
     <Compile Include="Controllers\NotesController.cs" />
+    <Compile Include="Controllers\NoteSettingsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201601291547555_Initial.cs" />
-    <Compile Include="Migrations\201601291547555_Initial.Designer.cs">
-      <DependentUpon>201601291547555_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201602070015563_InitialCreate.cs" />
+    <Compile Include="Migrations\201602070015563_InitialCreate.Designer.cs">
+      <DependentUpon>201602070015563_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602070216176_NoteSettingsMig.cs" />
+    <Compile Include="Migrations\201602070216176_NoteSettingsMig.Designer.cs">
+      <DependentUpon>201602070216176_NoteSettingsMig.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CalendarSetting.cs" />
@@ -268,14 +273,9 @@
     <Compile Include="Models\MirrorResponse.cs" />
     <Compile Include="Models\Note.cs" />
     <Compile Include="Models\NoteContext.cs" />
+    <Compile Include="Models\Settings\NoteSettings.cs" />
+    <Compile Include="Models\Settings\NoteSettingsContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebForm1.aspx.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="WebForm1.aspx.designer.cs">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -310,7 +310,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="WebForm1.aspx" />
     <Content Include="MagicMirror.p12">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -346,11 +345,6 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201601291547555_Initial.resx">
-      <DependentUpon>201601291547555_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
@@ -362,6 +356,14 @@
       <Project>{26f53447-d2c8-4565-a3ce-f3269831bc7d}</Project>
       <Name>MirrorWebService.Managers</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201602070015563_InitialCreate.resx">
+      <DependentUpon>201602070015563_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602070216176_NoteSettingsMig.resx">
+      <DependentUpon>201602070216176_NoteSettingsMig.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

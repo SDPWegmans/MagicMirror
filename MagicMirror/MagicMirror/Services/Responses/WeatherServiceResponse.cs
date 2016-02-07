@@ -1,4 +1,4 @@
-﻿using MagicMirror.Services.DTO.Weather;
+﻿using MagicMirror.DTO.Weather;
 using System.Runtime.Serialization;
 
 namespace MagicMirror.Services.Responses

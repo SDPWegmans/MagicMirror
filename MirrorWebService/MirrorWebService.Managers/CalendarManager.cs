@@ -64,8 +64,8 @@ namespace MirrorWebService.Managers
                 Events.Add(new Cal.Event()
                 {
                     Summary = item.Summary,
-                    StartTime = item.Start.DateTime.HasValue ? item.Start.DateTime.Value : DateTime.Parse(item.Start.Date),
-                    EndTime = item.End.DateTime.HasValue ? item.End.DateTime.Value : DateTime.Parse(item.End.Date)
+                    StartTimeStr = (item.Start.DateTime.HasValue ? item.Start.DateTime.Value : DateTime.Parse(item.Start.Date)).ToString(),
+                    EndTimeStr = (item.End.DateTime.HasValue ? item.End.DateTime.Value : DateTime.Parse(item.End.Date)).ToString()
                 });
             }
 

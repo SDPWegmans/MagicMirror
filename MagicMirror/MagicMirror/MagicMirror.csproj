@@ -107,6 +107,7 @@
     <Compile Include="OS\Monitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Responses\CalendarResponse.cs" />
+    <Compile Include="Services\Responses\MirrorDataResponse.cs" />
     <Compile Include="Services\Responses\NoteResponse.cs" />
     <Compile Include="Services\Responses\QOTDResponse.cs" />
     <Compile Include="Services\Responses\ServiceResponseBase.cs" />
